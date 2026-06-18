@@ -32,10 +32,7 @@ export default function Login() {
         className="auth-card glass-panel"
       >
         <h2 className="text-3xl font-bold text-center mb-6">Welcome Back</h2>
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444', color: '#ef4444', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1rem', fontSize: '0.875rem' }}>
-          <strong className="font-bold">Demo Project Notice: </strong>
-          <span className="block sm:inline">This is a portfolio project. Please <b>do not enter any real personal information, passwords, or credit card details.</b></span>
-        </div>
+
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label>Email Address</label>
