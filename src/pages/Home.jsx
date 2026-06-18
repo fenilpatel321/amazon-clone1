@@ -10,8 +10,15 @@ export default function Home({ searchQuery, onAddToCart, wishlist, toggleWishlis
 
   // Filter products based on search query and active category
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          product.category.toLowerCase().includes(searchQuery.toLowerCase());
+    const query = searchQuery.toLowerCase().trim();
+    const searchTerms = query.split(/\s+/);
+    
+    // Check if every search term matches either title or category
+    const matchesSearch = query === '' || searchTerms.every(term => 
+      product.title.toLowerCase().includes(term) ||
+      product.category.toLowerCase().includes(term)
+    );
+    
     const matchesCategory = activeCategory === 'All' || product.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
