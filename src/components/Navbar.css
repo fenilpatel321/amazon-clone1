@@ -1,0 +1,28 @@
+.navbar {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  overflow-x: auto;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  scrollbar-width: none; /* Firefox */
+}
+
+.nav-container::-webkit-scrollbar {
+  display: none; /* Safari/Chrome */
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.nav-item:hover {
+  color: var(--accent-primary);
+}

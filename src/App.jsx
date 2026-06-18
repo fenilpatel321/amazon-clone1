@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -7,8 +10,10 @@ import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
-import './App.css';
-import './pages.css';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Checkout from './pages/Checkout';
+import OrderSuccess from './pages/OrderSuccess';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -70,63 +75,78 @@ function App() {
   const totalWishlistCount = wishlist.length;
 
   return (
-    <Router>
-      <div className="app">
-        <Header 
-          searchQuery={searchQuery} 
-          onSearchChange={setSearchQuery} 
-          cartCount={totalCartCount} 
-          wishlistCount={totalWishlistCount}
-        />
-        <Navbar onCategoryClick={setSearchQuery} />
-        <main>
-          <Routes>
-            <Route 
-              path="/" 
-              element={
-                <Home 
-                  searchQuery={searchQuery} 
-                  onAddToCart={handleAddToCart} 
-                  wishlist={wishlist}
-                  toggleWishlist={toggleWishlist}
-                />
-              } 
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="app">
+            <Toaster position="bottom-right" toastOptions={{
+              style: {
+                background: 'var(--bg-secondary)',
+                color: 'var(--text-primary)',
+                border: '1px solid var(--border-color)',
+              }
+            }}/>
+            <Header 
+              searchQuery={searchQuery} 
+              onSearchChange={setSearchQuery} 
+              cartCount={totalCartCount} 
+              wishlistCount={totalWishlistCount}
             />
-            <Route 
-              path="/product/:id" 
-              element={
-                <ProductDetails 
-                  onAddToCart={handleAddToCart} 
-                  wishlist={wishlist}
-                  toggleWishlist={toggleWishlist}
+            <Navbar onCategoryClick={setSearchQuery} />
+            <main>
+              <Routes>
+                <Route 
+                  path="/" 
+                  element={
+                    <Home 
+                      searchQuery={searchQuery} 
+                      onAddToCart={handleAddToCart} 
+                      wishlist={wishlist}
+                      toggleWishlist={toggleWishlist}
+                    />
+                  } 
                 />
-              } 
-            />
-            <Route 
-              path="/cart" 
-              element={
-                <Cart 
-                  cartItems={cartItems} 
-                  updateQuantity={updateQuantity} 
-                  removeItem={removeItem} 
+                <Route 
+                  path="/product/:id" 
+                  element={
+                    <ProductDetails 
+                      onAddToCart={handleAddToCart} 
+                      wishlist={wishlist}
+                      toggleWishlist={toggleWishlist}
+                    />
+                  } 
                 />
-              } 
-            />
-            <Route 
-              path="/wishlist" 
-              element={
-                <Wishlist 
-                  wishlist={wishlist} 
-                  toggleWishlist={toggleWishlist}
-                  onAddToCart={handleAddToCart}
+                <Route 
+                  path="/cart" 
+                  element={
+                    <Cart 
+                      cartItems={cartItems} 
+                      updateQuantity={updateQuantity} 
+                      removeItem={removeItem} 
+                    />
+                  } 
                 />
-              } 
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+                <Route 
+                  path="/wishlist" 
+                  element={
+                    <Wishlist 
+                      wishlist={wishlist} 
+                      toggleWishlist={toggleWishlist}
+                      onAddToCart={handleAddToCart}
+                    />
+                  } 
+                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

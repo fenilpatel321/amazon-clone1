@@ -1,38 +1,75 @@
 export const products = [
+  // Mobiles
   {
-    id: 1,
-    title: "WD 2TB Elements Portable External Hard Drive",
-    category: "Electronics",
+    id: 11,
+    title: "Apple iPhone 15 Pro Max (256GB)",
+    category: "Mobiles",
+    rating: 4.9,
+    price: 159900,
+    originalPrice: 169900,
+    discount: 5,
+    badge: "NEW",
+    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 12,
+    title: "Samsung Galaxy S24 Ultra",
+    category: "Mobiles",
     rating: 4.8,
-    price: 4999,
-    originalPrice: 7999,
-    discount: 37,
+    price: 129999,
+    originalPrice: 134999,
+    discount: 4,
     badge: "BEST SELLER",
-    image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 2,
-    title: "SanDisk SSD PLUS 1TB Internal SSD",
-    category: "Electronics",
+    id: 13,
+    title: "OnePlus 12 5G",
+    category: "Mobiles",
     rating: 4.7,
-    price: 8999,
-    originalPrice: 12999,
-    discount: 30,
+    price: 64999,
+    originalPrice: 69999,
+    discount: 7,
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351cb31b?auto=format&fit=crop&w=800&q=80"
+  },
+  
+  // Laptops
+  {
+    id: 21,
+    title: "MacBook Air M3",
+    category: "Laptops",
+    rating: 4.9,
+    price: 114900,
+    originalPrice: 114900,
+    discount: 0,
+    badge: "NEW",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 22,
+    title: "HP Pavilion x360",
+    category: "Laptops",
+    rating: 4.5,
+    price: 65999,
+    originalPrice: 75999,
+    discount: 13,
+    image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 23,
+    title: "Dell Inspiron 15",
+    category: "Laptops",
+    rating: 4.4,
+    price: 45990,
+    originalPrice: 55990,
+    discount: 18,
     badge: "SALE",
-    image: "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80"
   },
+
+  // Fashion
   {
-    id: 3,
-    title: "Fjallraven - Foldsack No. 1 Backpack",
-    category: "Fashion",
-    rating: 4.2,
-    price: 2499,
-    originalPrice: 3999,
-    discount: 37,
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 4,
+    id: 31,
     title: "Mens Casual Premium T-Shirts",
     category: "Fashion",
     rating: 4.4,
@@ -43,67 +80,58 @@ export const products = [
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 5,
-    title: "Mens Cotton Jacket",
+    id: 32,
+    title: "Classic Blue Jeans",
     category: "Fashion",
-    rating: 4.5,
-    price: 1899,
-    originalPrice: 3499,
-    discount: 45,
-    badge: "SALE",
-    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80"
+    rating: 4.6,
+    price: 1299,
+    originalPrice: 2499,
+    discount: 48,
+    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 6,
-    title: "John Hardy Women's Legends Naga Gold Bracelet",
+    id: 33,
+    title: "Premium Running Shoes",
+    category: "Fashion",
+    rating: 4.8,
+    price: 2999,
+    originalPrice: 4999,
+    discount: 40,
+    badge: "BEST SELLER",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"
+  },
+
+  // Books
+  {
+    id: 41,
+    title: "Programming React - O'Reilly",
+    category: "Books",
+    rating: 4.9,
+    price: 1599,
+    originalPrice: 2000,
+    discount: 20,
+    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 42,
+    title: "The Great Gatsby - Novel",
+    category: "Books",
+    rating: 4.7,
+    price: 399,
+    originalPrice: 599,
+    discount: 33,
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80"
+  },
+
+  // Others
+  {
+    id: 51,
+    title: "John Hardy Naga Gold Bracelet",
     category: "Beauty",
     rating: 4.6,
     price: 45999,
     originalPrice: 50999,
     discount: 9,
     image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 11,
-    title: "Apple iPhone 15 Pro Max (256GB) - Natural Titanium",
-    category: "Electronics",
-    rating: 4.9,
-    price: 159900,
-    originalPrice: 169900,
-    discount: 5,
-    badge: "NEW",
-    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 8,
-    title: "Acer SB220Q bi 21.5 inches Full HD IPS Monitor",
-    category: "Electronics",
-    rating: 4.9,
-    price: 11999,
-    originalPrice: 15999,
-    discount: 25,
-    badge: "BEST SELLER",
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 9,
-    title: "Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor",
-    category: "Electronics",
-    rating: 4.6,
-    price: 84990,
-    originalPrice: 129990,
-    discount: 34,
-    badge: "SALE",
-    image: "https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 10,
-    title: "Mens Casual Slim Fit",
-    category: "Fashion",
-    rating: 4.1,
-    price: 899,
-    originalPrice: 1599,
-    discount: 43,
-    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80"
   }
 ];

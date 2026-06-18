@@ -1,42 +1,36 @@
 import React, { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { products } from '../data/products';
-import { FaStar, FaArrowLeft, FaShoppingCart, FaBolt } from 'react-icons/fa';
+import { FaStar, FaArrowLeft, FaShoppingCart, FaBolt, FaShieldAlt, FaUndo, FaTruck } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { toast } from 'react-hot-toast';
+import './ProductDetails.css';
 
 export default function ProductDetails({ onAddToCart, wishlist = [], toggleWishlist }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const product = products.find(p => p.id === parseInt(id));
 
-  // Find similar products based on the same category (excluding current product)
   const similarProducts = products
     .filter(p => p.category === product?.category && p.id !== product?.id)
     .slice(0, 4);
 
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
   if (!product) {
     return (
-      <div className="product-not-found">
-        <h2>Product not found</h2>
-        <Link to="/" className="btn btn-buy">Back to Home</Link>
+      <div className="container py-16 text-center">
+        <h2 className="text-3xl font-bold mb-4">Product not found</h2>
+        <Link to="/" className="btn-primary">Back to Home</Link>
       </div>
     );
   }
 
-  const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(<FaStar key={i} color={i <= Math.round(rating) ? '#ffa41c' : '#ccc'} />);
-    }
-    return stars;
-  };
-
   const handleAddToCart = () => {
     onAddToCart(product);
+    toast.success(`${product.title} added to cart`);
   };
 
   const handleBuyNow = () => {
@@ -45,62 +39,68 @@ export default function ProductDetails({ onAddToCart, wishlist = [], toggleWishl
   };
 
   return (
-    <div className="product-details-container">
-      <button className="back-button" onClick={() => navigate(-1)}>
+    <div className="container py-8">
+      <button className="back-btn" onClick={() => navigate(-1)}>
         <FaArrowLeft /> Back
       </button>
 
-      <div className="product-details-content">
-        <div className="product-details-image">
+      <div className="product-details-grid">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="product-image-col glass-panel"
+        >
           {product.badge && (
-            <span className={`detail-badge badge-${product.badge.toLowerCase().replace(' ', '-')}`}>
-              {product.badge}
-            </span>
+            <span className="product-badge bg-accent">{product.badge}</span>
           )}
-          <img src={product.image} alt={product.title} />
-        </div>
+          <img src={product.image} alt={product.title} className="detail-main-image" />
+        </motion.div>
 
-        <div className="product-details-info">
-          <div className="detail-category">{product.category}</div>
-          <h1 className="detail-title">{product.title}</h1>
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="product-info-col"
+        >
+          <span className="text-sm font-semibold uppercase tracking-wider text-muted">{product.category}</span>
+          <h1 className="text-3xl font-bold mt-2 mb-4">{product.title}</h1>
           
-          <div className="detail-rating">
-            {renderStars(product.rating)} 
-            <span className="rating-count">({Math.floor(Math.random() * 5000) + 100} ratings)</span>
+          <div className="flex items-center gap-2 mb-6 border-b border-color pb-6">
+            <div className="flex items-center gap-1 text-warning">
+              <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar color="#ccc" />
+            </div>
+            <span className="font-medium">{product.rating}</span>
+            <span className="text-muted ml-2">({Math.floor(Math.random() * 5000) + 100} reviews)</span>
           </div>
 
-          <hr className="detail-divider" />
-
-          <div className="detail-pricing">
-            {product.discount > 0 && <span className="detail-discount-badge">-{product.discount}%</span>}
-            <span className="detail-price">
-              <span className="currency">₹</span>
-              {product.price.toLocaleString('en-IN')}
-            </span>
-            {product.originalPrice && (
-              <div className="detail-mrp">
-                M.R.P.: <span className="original">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-              </div>
-            )}
+          <div className="pricing-section mb-6">
+            <div className="flex items-end gap-3 mb-1">
+              <span className="text-4xl font-bold">₹{product.price.toLocaleString('en-IN')}</span>
+              {product.originalPrice && (
+                <span className="text-lg text-muted line-through mb-1">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+              )}
+            </div>
+            {product.discount > 0 && <span className="text-success font-semibold">You save {product.discount}%</span>}
+            <p className="text-xs text-muted mt-1">Inclusive of all taxes</p>
           </div>
 
-          <p className="detail-tax-info">Inclusive of all taxes</p>
-
-          <hr className="detail-divider" />
-
-          <div className="detail-offers">
-            <h3>Offers</h3>
-            <div className="offer-card">
-              <h4>Bank Offer</h4>
-              <p>10% Instant Discount on SBI Credit Cards</p>
+          <div className="features-grid mb-8">
+            <div className="feature-item">
+              <FaTruck size={24} className="text-accent" />
+              <span className="text-sm">Free Delivery</span>
+            </div>
+            <div className="feature-item">
+              <FaUndo size={24} className="text-accent" />
+              <span className="text-sm">7 Days Return</span>
+            </div>
+            <div className="feature-item">
+              <FaShieldAlt size={24} className="text-accent" />
+              <span className="text-sm">1 Year Warranty</span>
             </div>
           </div>
 
-          <hr className="detail-divider" />
-          
-          <div className="detail-description">
-            <h3>About this item</h3>
-            <ul>
+          <div className="description-section mb-8">
+            <h3 className="text-xl font-semibold mb-3">About this item</h3>
+            <ul className="desc-list text-muted">
               <li>High-quality materials designed for longevity and performance.</li>
               <li>Sleek, modern design that fits perfectly in any setup.</li>
               <li>Industry leading warranty and excellent customer support.</li>
@@ -108,48 +108,38 @@ export default function ProductDetails({ onAddToCart, wishlist = [], toggleWishl
             </ul>
           </div>
 
-        </div>
-
-        <div className="product-details-actions">
-          <div className="action-box">
-            <h3 className="action-price">₹{product.price.toLocaleString('en-IN')}</h3>
-            <p className="delivery-info">
-              <span className="free-delivery">FREE delivery</span> by Tomorrow
-            </p>
-            <h4 className="in-stock">In stock</h4>
-            <div className="sold-by">Sold by <span>RetailNet</span> and Fulfilled by Us.</div>
-
-            <button className="btn btn-cart action-btn" onClick={handleAddToCart}>
-              <FaShoppingCart /> Add to Cart
-            </button>
-            <button className="btn btn-buy action-btn" onClick={handleBuyNow}>
-              <FaBolt /> Buy Now
-            </button>
-
-            <div className="secure-transaction">
-              🔒 Secure transaction
+          <div className="actions-section glass-panel p-6 rounded-2xl">
+            <div className="flex gap-4">
+              <button className="btn-secondary flex-1 py-3 text-lg" onClick={handleAddToCart}>
+                <FaShoppingCart /> Add to Cart
+              </button>
+              <button className="btn-primary flex-1 py-3 text-lg" onClick={handleBuyNow}>
+                <FaBolt /> Buy Now
+              </button>
             </div>
+            <p className="text-center text-sm text-muted mt-4 flex items-center justify-center gap-1">
+              <FaShieldAlt /> Secure transaction
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+      {similarProducts.length > 0 && (
+        <div className="similar-products mt-16">
+          <h2 className="text-2xl font-bold mb-6 border-b border-color pb-2">Similar Products</h2>
+          <div className="similar-grid">
+            {similarProducts.map(p => (
+              <Link to={`/product/${p.id}`} key={p.id} className="similar-card glass-panel">
+                <img src={p.image} alt={p.title} />
+                <div className="p-4">
+                  <h3 className="text-sm font-semibold line-clamp-2 mb-2">{p.title}</h3>
+                  <span className="font-bold text-lg">₹{p.price.toLocaleString('en-IN')}</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
-      </div>
-
-      <div className="similar-products-section" style={{ marginTop: '50px' }}>
-        <h2 className="section-title">Similar Products</h2>
-        <div className="product-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
-          {similarProducts.map(p => (
-            <div key={p.id} className="product-card" style={{ padding: '15px' }}>
-              <Link to={`/product/${p.id}`} className="product-image-link" style={{ display: 'block', marginBottom: '10px' }}>
-                <img src={p.image} alt={p.title} className="product-image" loading="lazy" style={{ height: '150px' }} />
-              </Link>
-              <span className="product-category" style={{ fontSize: '0.75rem' }}>{p.category}</span>
-              <Link to={`/product/${p.id}`} className="product-title-link">
-                <h3 className="product-title" style={{ fontSize: '0.95rem' }}>{p.title}</h3>
-              </Link>
-              <div className="price" style={{ fontSize: '1.2rem', marginTop: '10px' }}>₹{p.price.toLocaleString('en-IN')}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

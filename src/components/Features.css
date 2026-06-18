@@ -1,0 +1,27 @@
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-light);
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+}
+
+.text-accent {
+  color: var(--accent-primary);
+}

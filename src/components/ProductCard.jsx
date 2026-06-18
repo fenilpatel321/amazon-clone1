@@ -1,61 +1,74 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaStar } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { toast } from 'react-hot-toast';
+import './ProductCard.css';
 
 export default function ProductCard({ product, onAddToCart, wishlist = [], toggleWishlist }) {
   const navigate = useNavigate();
-  
   const isWishlisted = wishlist.some(item => item.id === product.id);
 
-  // Generate dummy stars based on rating
-  const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(<span key={i} style={{ color: i <= Math.round(rating) ? '#ffa41c' : '#ccc' }}>★</span>);
-    }
-    return stars;
+  const handleAddToCart = () => {
+    onAddToCart(product);
+    toast.success(`${product.title} added to cart`);
+  };
+
+  const handleBuyNow = () => {
+    onAddToCart(product);
+    navigate('/cart');
   };
 
   return (
-    <div className="product-card">
+    <motion.div 
+      whileHover={{ y: -5, boxShadow: 'var(--shadow-xl)' }}
+      className="product-card glass-panel"
+    >
       <button 
         className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
         onClick={() => toggleWishlist(product)}
         aria-label="Add to Wishlist"
       >
-        {isWishlisted ? <FaHeart color="#ff6161" /> : <FaRegHeart color="#ccc" />}
+        {isWishlisted ? <FaHeart color="var(--danger)" /> : <FaRegHeart color="var(--text-secondary)" />}
       </button>
+
       {product.badge && (
-        <span className={`product-badge badge-${product.badge.toLowerCase().replace(' ', '-')}`}>
+        <span className="product-badge bg-accent">
           {product.badge}
         </span>
       )}
-      <Link to={`/product/${product.id}`} className="product-image-link">
+
+      <Link to={`/product/${product.id}`} className="product-image-container">
         <img src={product.image} alt={product.title} className="product-image" loading="lazy" />
       </Link>
-      <span className="product-category">{product.category}</span>
-      <Link to={`/product/${product.id}`} className="product-title-link">
-        <h3 className="product-title">{product.title}</h3>
-      </Link>
-      
-      <div className="product-rating">
-        {renderStars(product.rating)} <span style={{ color: '#007185', fontSize: '0.8rem' }}>({Math.floor(Math.random() * 5000) + 100})</span>
-      </div>
 
-      <div className="product-pricing">
-        <span className="price">₹{product.price.toLocaleString('en-IN')}</span>
-        {product.originalPrice && (
-          <span className="original-price">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-        )}
-        {product.discount > 0 && (
-          <span className="discount">({product.discount}% off)</span>
-        )}
-      </div>
+      <div className="product-info">
+        <span className="text-xs text-muted font-medium uppercase tracking-wider">{product.category}</span>
+        <Link to={`/product/${product.id}`}>
+          <h3 className="product-title text-base font-semibold line-clamp-2 mt-1 mb-2">{product.title}</h3>
+        </Link>
+        
+        <div className="product-rating flex items-center gap-1 mb-2">
+          <FaStar color="#f59e0b" size={14} />
+          <span className="text-sm font-medium">{product.rating}</span>
+          <span className="text-xs text-muted">({Math.floor(Math.random() * 500) + 50})</span>
+        </div>
 
-      <div className="product-actions">
-        <button className="btn btn-cart" onClick={() => onAddToCart(product)}>Add to Cart</button>
-        <button className="btn btn-buy" onClick={() => { onAddToCart(product); navigate('/cart'); }}>Buy Now</button>
+        <div className="product-pricing mb-4">
+          <span className="text-xl font-bold">₹{product.price.toLocaleString('en-IN')}</span>
+          {product.originalPrice && (
+            <span className="text-sm text-muted line-through ml-2">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+          )}
+          {product.discount > 0 && (
+            <span className="text-xs font-bold text-success ml-2">{product.discount}% off</span>
+          )}
+        </div>
+
+        <div className="product-actions flex gap-2">
+          <button className="btn-secondary flex-1" onClick={handleAddToCart}>Add to Cart</button>
+          <button className="btn-primary flex-1" onClick={handleBuyNow}>Buy Now</button>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

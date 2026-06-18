@@ -1,9 +1,15 @@
-import React from 'react';
-import { FaShoppingCart, FaSearch, FaHeart } from 'react-icons/fa';
+import React, { useContext } from 'react';
+import { FaShoppingCart, FaSearch, FaHeart, FaMoon, FaSun } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ThemeContext } from '../context/ThemeContext';
+import { AuthContext } from '../context/AuthContext';
+import './Header.css';
 
 export default function Header({ searchQuery, onSearchChange, cartCount, wishlistCount }) {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { user, logout } = useContext(AuthContext);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -11,45 +17,60 @@ export default function Header({ searchQuery, onSearchChange, cartCount, wishlis
   };
 
   return (
-    <header className="header">
-      <Link to="/" className="header-logo" style={{textDecoration: 'none'}}>
-        🛍️ eShop<span>Pro</span>
-      </Link>
-
-      <div className="header-location">
-        <span>Deliver to</span>
-        <strong>📍 India</strong>
-      </div>
-
-      <form className="header-search" onSubmit={handleSearchSubmit}>
-        <input 
-          type="text" 
-          placeholder="Search for products, brands and more..." 
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-        />
-        <button type="submit" aria-label="Search"><FaSearch /></button>
-      </form>
-
-      <div className="header-nav">
-        <div className="nav-link">
-          <span>Hello, Sign in</span>
-          <strong>Account & Lists</strong>
-        </div>
-        <div className="nav-link">
-          <span>Returns</span>
-          <strong>& Orders</strong>
-        </div>
-        
-        <Link to="/wishlist" className="header-cart" style={{textDecoration: 'none'}}>
-          <FaHeart color={wishlistCount > 0 ? '#ff6161' : 'white'} /> 
-          <span className="cart-count">{wishlistCount}</span> 
-          <span>Wishlist</span>
+    <header className="header glass-panel">
+      <div className="container header-container">
+        <Link to="/" className="header-logo">
+          <motion.div whileHover={{ scale: 1.05 }} className="logo-text">
+            🛍️ eShop<span className="accent">Pro</span>
+          </motion.div>
         </Link>
 
-        <Link to="/cart" className="header-cart" style={{textDecoration: 'none'}}>
-          <FaShoppingCart /> <span className="cart-count">{cartCount}</span> Cart
-        </Link>
+        <form className="header-search" onSubmit={handleSearchSubmit}>
+          <input 
+            type="text" 
+            className="input-field search-input"
+            placeholder="Search products, brands and more..." 
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
+          <button type="submit" className="search-btn" aria-label="Search">
+            <FaSearch />
+          </button>
+        </form>
+
+        <div className="header-actions">
+          <button onClick={toggleTheme} className="icon-btn theme-toggle">
+            {theme === 'light' ? <FaMoon /> : <FaSun />}
+          </button>
+
+          {user ? (
+            <div className="nav-link user-menu">
+              <span className="text-xs text-muted">Hello, {user.name || 'User'}</span>
+              <strong onClick={logout} className="logout-btn">Logout</strong>
+            </div>
+          ) : (
+            <Link to="/login" className="nav-link">
+              <span className="text-xs text-muted">Hello, Sign in</span>
+              <strong className="font-semibold">Account & Lists</strong>
+            </Link>
+          )}
+          
+          <Link to="/wishlist" className="header-icon-link">
+            <div className="icon-wrapper">
+              <FaHeart color={wishlistCount > 0 ? 'var(--danger)' : 'currentColor'} /> 
+              {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
+            </div>
+            <span className="link-text font-medium text-sm">Wishlist</span>
+          </Link>
+
+          <Link to="/cart" className="header-icon-link">
+            <div className="icon-wrapper">
+              <FaShoppingCart /> 
+              {cartCount > 0 && <span className="badge">{cartCount}</span>}
+            </div>
+            <span className="link-text font-medium text-sm">Cart</span>
+          </Link>
+        </div>
       </div>
     </header>
   );

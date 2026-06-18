@@ -1,28 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import './Navbar.css';
 
 export default function Navbar({ onCategoryClick }) {
   const navigate = useNavigate();
   
   const links = [
-    "☰ All", 
-    "Today's Deals", 
-    "Electronics", 
-    "Fashion", 
-    "Beauty", 
-    "Home & Kitchen", 
-    "Sports", 
-    "Books", 
-    "Automotive",
-    "Customer Service"
+    "All", "Electronics", "Fashion", "Beauty", "Home & Kitchen", "Sports", "Automotive"
   ];
 
   const handleCategoryClick = (e, link) => {
     e.preventDefault();
-    if (link === "☰ All" || link === "Customer Service" || link === "Today's Deals") {
+    if (link === "All") {
       onCategoryClick('');
     } else {
-      // Just extract the first word for simple filtering
       onCategoryClick(link.split(' ')[0]);
     }
     navigate('/');
@@ -30,11 +22,20 @@ export default function Navbar({ onCategoryClick }) {
 
   return (
     <nav className="navbar">
-      {links.map((link, idx) => (
-        <a key={idx} href="#" onClick={(e) => handleCategoryClick(e, link)}>
-          {link}
-        </a>
-      ))}
+      <div className="container nav-container">
+        {links.map((link, idx) => (
+          <motion.a 
+            key={idx} 
+            href="#" 
+            onClick={(e) => handleCategoryClick(e, link)}
+            whileHover={{ y: -2, color: 'var(--accent-primary)' }}
+            whileTap={{ scale: 0.95 }}
+            className="nav-item text-sm font-medium"
+          >
+            {link}
+          </motion.a>
+        ))}
+      </div>
     </nav>
   );
 }
