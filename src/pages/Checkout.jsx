@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import './Checkout.css';
 
-export default function Checkout() {
+export default function Checkout({ clearCart }) {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
 
@@ -26,14 +26,13 @@ export default function Checkout() {
       return;
     }
     toast.success('Order placed successfully!');
-    localStorage.setItem('cartItems', JSON.stringify([])); // Clear cart instead of removeItem so App state stays synced
-    // Actually wait, App.jsx uses context or localstorage initial. It will trigger useEffect on next load.
-    // For immediate effect we should dispatch event or just let it reload/navigate
-    window.dispatchEvent(new Event('storage')); // A hack to force other tabs/components to see localstorage changes if they listen
+    if (clearCart) {
+      clearCart();
+    } else {
+      localStorage.setItem('cartItems', JSON.stringify([]));
+    }
     setTimeout(() => {
-        // App.jsx will sync eventually on refresh, or we just reload
         navigate('/order-success');
-        window.location.reload(); // Quick hack to sync App state
     }, 1000);
   };
 

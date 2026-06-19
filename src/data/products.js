@@ -30,7 +30,7 @@ export const products = [
     price: 64999,
     originalPrice: 69999,
     discount: 7,
-    image: "https://images.unsplash.com/photo-1598327105666-5b89351cb31b?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80"
   },
   
   // Laptops
